@@ -2,7 +2,9 @@ package com.myproject.board.service;
 
 
 import com.myproject.board.dto.BoardDTO;
+import com.myproject.board.dto.MemberDTO;
 import com.myproject.board.entity.BoardEntity;
+import com.myproject.board.entity.MemberEntity;
 import com.myproject.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -50,5 +52,34 @@ public class BoardService {
         } else {
             return null;
         }
+    }
+
+    public BoardDTO updateForm(Long id) {
+        Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
+        if(optionalBoardEntity.isPresent()) {
+            return BoardDTO.toBoardDTO(optionalBoardEntity.get());
+        } else {
+            return null;
+        }
+    }
+    @Transactional
+    public void update(BoardDTO boardDTO) {
+        Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(boardDTO.getId());
+        if (optionalBoardEntity.isPresent()) {
+            BoardEntity boardEntity = optionalBoardEntity.get();
+
+            // 작성자 이메일 변경 방지
+            boardDTO.setBoardWriter(boardEntity.getBoardWriter());
+
+            // 게시글 내용 업데이트
+            boardEntity.setBoardTitle(boardDTO.getBoardTitle());
+            boardEntity.setBoardContents(boardDTO.getBoardContents());
+            boardRepository.save(boardEntity.toUpdateBoardEntity(boardDTO));
+        }
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        boardRepository.deleteById(id);
     }
 }

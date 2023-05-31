@@ -23,5 +23,11 @@
     <td th:text="${board.boardHits}"></td>
   </tr>
 </table>
+<button onclick="saveReq()">글작성</button>
 </body>
+<script>
+  const saveReq =() => {
+    location.href ="/board/save";
+  }
+</script>
 </html>

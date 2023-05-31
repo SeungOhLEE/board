@@ -1,6 +1,7 @@
 package com.myproject.board.entity;
 
 import com.myproject.board.dto.BoardDTO;
+import com.myproject.board.dto.MemberDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,6 +43,18 @@ public class BoardEntity extends BaseEntity {
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(0);
         return boardEntity;
+    }
+
+    public static BoardEntity toUpdateBoardEntity(BoardDTO boardDTO) {
+         //boardDTO에 담긴 값들을 -> boardEntity로 옮겨 담는 과정
+            BoardEntity boardEntity = new BoardEntity();
+            boardEntity.setId(boardDTO.getId());
+            boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+            boardEntity.setBoardPass(boardDTO.getBoardPass());
+            boardEntity.setBoardTitle(boardDTO.getBoardTitle());
+            boardEntity.setBoardContents(boardDTO.getBoardContents());
+            boardEntity.setBoardHits(0);
+            return boardEntity;
     }
 }
 
